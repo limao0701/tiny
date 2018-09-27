@@ -37,6 +37,28 @@ def constructTree(anode,preOder,midOrder):
         return None
 
 
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+class Solution:
+    # 返回构造的TreeNode根节点
+    def reConstructBinaryTree(self, pre, tin):
+        if(pre):
+            myNode=TreeNode(pre[0])
+            index=tin.index(pre[0])
+            if(index==0):
+                myNode.left=None
+            else:
+                myNode.left=self.reConstructBinaryTree(pre[1:index+1],tin[0:index]) 
+            myNode.right=self.reConstructBinaryTree(pre[index+1:len(tin)],tin[index+1:len(tin)])
+            return myNode
+        else:
+            return None
+
+
+
 preOder=[1,2,4,7,3,5,6,8]
 midOrder=[4,7,2,1,5,3,8,6]
 myTree=tree()
