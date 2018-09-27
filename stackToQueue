@@ -1,0 +1,12 @@
+class Solution:
+    def __init__(self):
+        self.stack_a=[]
+        self.stack_b=[]
+    def push(self, node):
+        while(self.stack_b):
+            self.stack_a.append(self.stack_b.pop())
+        self.stack_b.append(node)
+        while(self.stack_a):
+            self.stack_b.append(self.stack_a.pop())
+    def pop(self):
+        return self.stack_b.pop()
