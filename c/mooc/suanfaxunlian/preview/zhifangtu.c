@@ -8,7 +8,7 @@ unsigned int force(unsigned int a[],unsigned int n);
 unsigned int recursion(unsigned int a[],int n);
 
 int main(){
-        srand(time(NULL));
+/*        srand(time(NULL));
         unsigned int max_len=1;
 	scanf("%u",&max_len);
         unsigned int n=max_len;
@@ -17,15 +17,16 @@ int main(){
 		srand(time(NULL));
 		a[i]=(unsigned int)rand()%32767;
 	}
-/*	unsigned int n;
+*/
+	unsigned int n;
 	scanf("%u",&n);
 	unsigned int a[n];
 	for(unsigned int i=0;i<n;i++){
     		scanf("%u",&a[i]);
 	}
-*/
-	printf("%u",force(a,n));
-        printf("\r\n%u",recursion(a,(int)n));
+
+	//printf("%u",force(a,n));
+        printf("%u",recursion(a,(int)n));
 	return 0;
 }
 
@@ -35,12 +36,12 @@ unsigned int recursion(unsigned int a[],int n){
 		return a[0];
 	}
 	if(n<=0){
-		return 0;
+		return (unsigned int )0;
 	}
-	unsigned int small=find_small_index(&a[0],n);
-	unsigned int squal=a[small]*(unsigned int )n;
-	unsigned int left_squal=recursion(&a[0],(int)small-1);
-	unsigned int right_squal=recursion(&a[small+1],n-(int)small-1);
+	unsigned int small=find_small_index(a,n);
+	unsigned int squal=a[small]*(unsigned int)n;
+	unsigned int left_squal=recursion(a,(int)small);
+	unsigned int right_squal=recursion(a+small+1,n-small-1);
 	squal=(squal < left_squal)? left_squal:squal;
 	squal=(squal < right_squal)? right_squal:squal;
 	return squal;
