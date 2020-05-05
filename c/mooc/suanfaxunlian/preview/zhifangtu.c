@@ -1,32 +1,38 @@
 #include<stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include"stack.h"
 
 
 unsigned int find_small_index(unsigned int a[],unsigned int n);
 unsigned int force(unsigned int a[],unsigned int n);
 unsigned int recursion(unsigned int a[],int n);
-
+unsigned int by_stack(unsigned int a[],int n);
 int main(){
-/*        srand(time(NULL));
-        unsigned int max_len=1;
+/*        
+	srand(time(NULL));
+	unsigned int max_len=1;
 	scanf("%u",&max_len);
-        unsigned int n=max_len;
-        unsigned int a[n];
-        for(unsigned int i=0;i<n;i++){
-		srand(time(NULL));
+    unsigned int n=max_len;
+    unsigned int a[n];
+    for(unsigned int i=0;i<n;i++){
 		a[i]=(unsigned int)rand()%32767;
+		//printf("%u\n",a[i]);
 	}
 */
+///*
 	unsigned int n;
 	scanf("%u",&n);
 	unsigned int a[n];
 	for(unsigned int i=0;i<n;i++){
-    		scanf("%u",&a[i]);
+    	scanf("%u",&a[i]);
 	}
-
-	//printf("%u",force(a,n));
-        printf("%u",recursion(a,(int)n));
+ //*/
+//	printf("%u",force(a,n));
+//	printf("\n");
+//	printf("%u",recursion(a,(int)n));
+//	printf("\n");
+	printf("%u",by_stack(a,(int)n));
 	return 0;
 }
 
@@ -76,3 +82,44 @@ unsigned int find_small_index(unsigned int a[],unsigned int n){
 	}
 	return index;
 }
+
+
+
+unsigned int by_stack(unsigned int a[],int n){
+	array_stack*rank_stack=array_stack_new(n);
+	int top_k=0;
+	unsigned int max_area=0;
+	unsigned int temp_max=0;
+	int pre_stack_top=0;
+	for(int k=0;k<n;){
+		if( rank_stack->stack_isempty(rank_stack) || a[rank_stack->stack_top(rank_stack)] <= a[k] ){
+			rank_stack->stack_push(rank_stack,k);
+			k++;
+			
+		}
+		else{
+			top_k=rank_stack->stack_pop(rank_stack);
+			if( rank_stack->stack_isempty(rank_stack)){
+				pre_stack_top=-1;
+			}
+			else{
+				pre_stack_top=rank_stack->stack_top(rank_stack);
+			}
+			temp_max=(unsigned int)(k-pre_stack_top-1) * a[top_k];
+			max_area=(temp_max < max_area)?max_area:temp_max;
+		}
+	}
+	while(!rank_stack->stack_isempty(rank_stack)){
+		top_k=rank_stack->stack_pop(rank_stack);
+		if( rank_stack->stack_isempty(rank_stack)){
+			pre_stack_top=-1;
+		}
+		else{
+			pre_stack_top=rank_stack->stack_top(rank_stack);
+		}
+		temp_max=(unsigned int)(n - pre_stack_top - 1) * a[top_k];
+		max_area=(temp_max < max_area)?max_area:temp_max;
+	}
+	return max_area;
+}
+
