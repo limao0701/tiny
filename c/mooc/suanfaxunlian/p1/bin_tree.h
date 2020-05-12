@@ -32,7 +32,7 @@ int bin_node_insert_left(struct bin_node *node,struct bin_node *node_left);
 int bin_node_insert_right(struct bin_node *node,struct bin_node *node_right);
 int bin_node_remove_left(struct bin_node *node,int free_it);
 int bin_node_remove_right(struct bin_node *node, int free_it);
-int update_height(struct bin_node *node);
+int bin_node_update_height(struct bin_node *node);
 
 bin_tree *bin_tree_new(bin_node * root);
 int bin_tree_isempty(bin_tree *tree);

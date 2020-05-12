@@ -14,8 +14,23 @@ bin_node * bin_node_new(int data){
     node->insert_right=bin_node_insert_right;
     node->remove_left=bin_node_remove_left;
     node->remove_right=bin_node_remove_right;
+    node->update_height=bin_node_update_height;
     return node;
 }
+
+int bin_node_update_height(struct bin_node *node){
+    int l_height=0;
+    int r_height=0;
+    if(node->l_child){
+        l_height=node->l_child->height;
+    }
+    if(node->r_child){
+        r_height=node->r_child->height;
+    }
+    node->height=1+((l_height<r_height)?r_height:l_height);
+    return node->height;
+}
+
 int bin_node_insert_left(struct bin_node *node,struct bin_node *node_left){
     if(node->l_child){
         printf("Left not NULL\n");

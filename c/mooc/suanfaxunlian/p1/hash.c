@@ -66,6 +66,9 @@ void data_list_insert(hash_data * head,long data){
     new_hash_data->data=data;
     new_hash_data->pre=head;
     new_hash_data->sur=head->sur;
+    if(new_hash_data->sur){
+        new_hash_data->sur->pre=new_hash_data;
+    }
     head->sur=new_hash_data;
     return;
 }

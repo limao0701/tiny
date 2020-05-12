@@ -50,32 +50,40 @@ int main(){
     long data=0;
     char *out=malloc(sizeof(char)*n);
     char *out2=malloc(sizeof(char)*n);
+     long *all_data=malloc(sizeof(long)*n);
+    int  *all_ops=malloc(sizeof(int)*n);
     hash_table * my_hash_table=hash_table_new(n,90001);
     hash_data *data_head=(hash_data *)malloc(sizeof(hash_data));
     data_head->pre=data_head;
     data_head->sur=NULL;
     for(int i=0;i<n;i++){
+        //scanf("%d",all_ops+i);
+        //scanf("%ld",all_data+i);
+       
         scanf("%d",&op);
-        scanf("%ld",&data);
-        if(force_find_op(data_head,data,op)){
-            out2[i]=1;
-        }
-        else{
-            out2[i]=0;
-        }
-        /*
+        scanf("%ld",&data);    
         if(op==1){           
             out[i]=hash_table_insert(my_hash_table,data);
         }
         else{
             out[i]=hash_table_remove(my_hash_table,data);
         }
-        */
+        
     }
+    /*
+    for(int i=0;i<n;i++){
+        if(force_find_op(data_head,all_data[i],all_ops[i])){
+            out2[i]=1;
+        }
+        else{
+            out2[i]=0;
+        }
+    }
+    */
 //*/
 
     for(int i=0;i<n;i++){
-        if(out2[i]==0){
+        if(out[i]==0){
             printf("Failed\n");
         }
         else{
@@ -89,7 +97,7 @@ int main(){
 }
 
 
-int force_find_op(hash_data *data_head,long x,int op){
+int force_find_op(hash_data *data_head, long x,int op){
     hash_data *tmp=data_head->sur;
     while(tmp){
         if(tmp->data == x){
@@ -97,9 +105,9 @@ int force_find_op(hash_data *data_head,long x,int op){
                 return 0;
             }
             if(op==2){   //remove exist number;
-                tmp->pre->sur=tmp->sur;
+                (tmp->pre)->sur=tmp->sur;
                 if(tmp->sur){
-                    tmp->sur->pre=tmp->pre;
+                    (tmp->sur)->pre=tmp->pre;
                 }
                 free(tmp);
                 return 1;
@@ -112,6 +120,9 @@ int force_find_op(hash_data *data_head,long x,int op){
         tmp->data=x;
         tmp->sur=data_head->sur;
         tmp->pre=data_head;
+        if(tmp->sur){
+            tmp->sur->pre=tmp;
+        }
         data_head->sur=tmp;
         return 1;
     }
