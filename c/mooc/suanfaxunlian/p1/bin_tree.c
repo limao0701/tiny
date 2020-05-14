@@ -4,7 +4,7 @@
 
 //Method for bin_node
 
-bin_node * bin_node_new(int data){
+bin_node * bin_node_new(long data){
     bin_node*node=(bin_node *)malloc(sizeof(bin_node));
     node->data=data;
     node->height=0;

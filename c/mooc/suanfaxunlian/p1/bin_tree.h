@@ -2,7 +2,7 @@ typedef struct bin_node{
     struct bin_node * parent;
     struct bin_node * l_child;
     struct bin_node * r_child;
-    int data;
+    long data;
     int (*insert_left)(struct bin_node *node,struct bin_node *node_left);
     int (*insert_right)(struct bin_node *node,struct bin_node *node_right);
     int (*remove_left)(struct bin_node *node,int free_it);
@@ -27,7 +27,7 @@ typedef struct bin_tree{
     void(*trav_level)( bin_node *root,void(*trave_fun)(bin_node *node));
 }bin_tree;
 
-bin_node * bin_node_new(int data);
+bin_node * bin_node_new(long data);
 int bin_node_insert_left(struct bin_node *node,struct bin_node *node_left);
 int bin_node_insert_right(struct bin_node *node,struct bin_node *node_right);
 int bin_node_remove_left(struct bin_node *node,int free_it);

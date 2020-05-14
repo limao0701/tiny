@@ -1,21 +1,69 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include"haffman.h"
+#include<time.h>
 
 int main(){
     int n=0;
-    int data;
+    srand(time(NULL));
+    long data;
     scanf("%d",&n);
     if(!n){
         return 0;
     }
     bin_node_stack *stack=bin_node_stack_new(n);
+    bin_node_stack *stack_for_list=bin_node_stack_new(n);
     bin_node_queue *bin_queue=bin_node_queue_new(n);
     for(int i=0;i<n;i++){
-        scanf("%d",&data);
+        scanf("%ld",&data);
+        /*data=(rand()*200)+1;
+        if(data<0){
+            data=-data;
+        }
+        printf("%ld\n",data);
+        */
         push_to_bin_node_stack(stack,data);
+ //       push_to_bin_node_stack(stack_for_list,data);
+        
     }
     bin_node_stack *sorted_stack=bin_node_stack_sort(stack,n);
+/*
+    bin_node_list_node *head=(bin_node_list_node*)malloc(sizeof(bin_node_list_node));
+    bin_node_list_node *list_node=NULL;
+    head->next=NULL;
+    head->pre=head;
+    while(!stack_for_list->isempty(stack_for_list)){
+        list_node=(bin_node_list_node*)malloc(sizeof(bin_node_list_node));
+        list_node->node=stack_for_list->pop(stack_for_list);
+        bin_node_insert_inorder(head,list_node);
+
+    }
+    head=head->next;
+    bin_node_list_node *a;
+    bin_node_list_node *b;
+    bin_node_list_node *tmp_bin_node_list_node;
+    bin_node * temp_root_node;
+    while(head){
+        if(!head->next){
+            break;
+        }
+        a=head;
+        head=head->next;
+        b=head;
+        
+        tmp_bin_node_list_node=(bin_node_list_node *)malloc(sizeof(bin_node_list_node));
+        temp_root_node=malloc(sizeof(bin_node));
+        temp_root_node->data=(a->node->data + b->node->data );
+        temp_root_node->l_child=a->node;
+        temp_root_node->r_child=b->node;
+        tmp_bin_node_list_node->node=temp_root_node;
+        bin_node_insert_inorder(head,tmp_bin_node_list_node);
+        head=head->next;
+    }
+
+
+*/
+
     free(stack);
     bin_node *node_root_ptr=NULL;
 
@@ -34,16 +82,20 @@ int main(){
         bin_queue->enqueue(bin_queue,node_root_ptr);
 
     }
-    int total_str_len=0;
+    long total_str_len=0;
     bin_node_trav_pre_value(node_root_ptr,trave_fun,(void *)&total_str_len,0);
-    printf("%d",total_str_len);
+    printf("%ld\n",total_str_len);
+
+    //total_str_len=0;
+    //bin_node_trav_pre_value(head->node,trave_fun,(void *)&total_str_len,0);
+    //printf("%ld",total_str_len);
     return 0;
 
 }
 
 
 
-void push_to_bin_node_stack(bin_node_stack *stack,int data){
+void push_to_bin_node_stack(bin_node_stack *stack,long data){
     bin_node *bin_node_ptr=bin_node_new(data);
     stack->push(stack,bin_node_ptr);
     return;
@@ -93,8 +145,8 @@ bin_node * get_small(bin_node_stack *stack, bin_node_queue *queue){
 
 
 void bin_node_trav_pre_value(bin_node *root,
-                             void(*trave_fun)(bin_node *node,void* store_value,int steps),
-                             void* store_value,int steps){
+                             void(*trave_fun)(bin_node *node,void* store_value,long steps),
+                             void* store_value,long steps){
     if(!root){  
         
         return;
@@ -111,7 +163,29 @@ void bin_node_trav_pre_value(bin_node *root,
     }
 }
 
-void trave_fun(bin_node *node,void* store_value,int steps){
-    *((int*)store_value)+= steps * node->data;
+void trave_fun(bin_node *node,void* store_value,long steps){
+   // printf("Data is:%ld\n",node->data);
+    *((long*)store_value)+= (long)steps * node->data;
     return;
 }
+
+void bin_node_insert_inorder(bin_node_list_node *head,bin_node_list_node *node){
+    while(head->next){
+        head=head->next;
+        if(node->node->data <= head->node->data){  
+            node->next=head;
+            node->pre=head->pre;
+            head->pre->next=node;
+            head->pre=node;
+            return;
+        }
+
+    }
+    //if no next for current head 
+    head->next=node;
+    node->next=NULL;
+    node->pre=head;
+}
+
+
+
