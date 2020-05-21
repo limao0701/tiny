@@ -2,12 +2,28 @@
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
+#include<time.h>
 
 void print_seq(long *array,int low,int high);
 void update_max_index(long *array,int * low,int *high,int *max,int*min,long d);
 void update_min_index(long *array,int * low,int *high,int *max,int*min,long d);
 
 int main(){
+
+/*
+    srand(time(NULL));
+    
+    int n=0;
+    long d=0;
+    scanf("%d",&n);
+    scanf("%ld",&d);
+    long * array=(long *)malloc(sizeof(long) * n);
+    for(int i=0;i<n;i++){
+        array[i]=rand();
+        printf("%ld ",array[i]);
+    }
+  */  
+ ///*   
     int n=0;
     long d=0;
     scanf("%d",&n);
@@ -19,12 +35,12 @@ int main(){
     for(int i=0;i<n;i++){
         scanf("%ld",&array[i]);
     }
-
+//*/
     int low=0;
     int high=0;
     int max=0;
     int min=0;
-    int total=0;
+    long long total=0;
     for(int i=0;i<n;i++){
         high=i;
         if(array[i]>array[max]){
@@ -38,7 +54,7 @@ int main(){
         total+=(high-low);
         //print_seq(array,low,high);
     }
-    printf("%d",total);
+    printf("%lld",total);
     return 0;
 }
 
@@ -60,29 +76,30 @@ void print_seq(long *array,int low,int high){
 
 void update_max_index(long *array,int * low,int *high,int *max,int*min,long d){
 //    printf("Update max: Max: %d, min: %d,High: %d, low: %d\n",*max,*min,*high,*low);
-    while(*max!=*min){
+    int length=*high-*low;
+    for(int max_index=*max+1;max_index<=*high;max_index++ ){
+        if(array[max_index]>array[*max]){
+            *max=max_index;
+        } 
         if(array[*max]-array[*min]>d){
-            (*max)++;
-            *low=*max;
-            continue;
-        }
-        else{   
-            break;
+            max_index=*max;
+            *low=++*max;
         }
     }
 
 }
 void update_min_index(long *array,int * low,int *high,int *max,int*min,long d){
 //    printf("Update min: Max: %d, min: %d,High: %d, low: %d\n",*max,*min,*high,*low);
-    while(*max!=*min){
+    int length=*high-*low;
+    for(int min_index=*min+1;min_index<=*high;min_index++ ){
+        if(array[min_index]<array[*min]){
+            *min=min_index;
+        } 
         if(array[*max]-array[*min]>d){
-            (*min)++;
-            *low=*min;
-            continue;
-        }
-        else{
-            break;
+            min_index=*min;
+            *low=++*min;
         }
     }
+    
 //    printf("updated\n");
 }
